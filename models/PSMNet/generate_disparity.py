@@ -25,8 +25,8 @@ model = stackhourglass(192)
 model = nn.DataParallel(model)
 model.cuda()
 
-#loadmodel = './trained/pretrained_model_KITTI2015.tar'
-loadmodel = './models/PSMNet/trained/pretrained_model_KITTI2015.tar'
+loadmodel = './trained/pretrained_model_KITTI2015.tar'
+#loadmodel = './models/PSMNet/trained/pretrained_model_KITTI2015.tar'
 print('load PSMNet')
 state_dict = torch.load(loadmodel)
 model.load_state_dict(state_dict['state_dict'])
@@ -87,7 +87,7 @@ def generate_disparity(leftimg, rightimg, isgray):
        else:
             img = pred_disp
        img = (img*256).astype('uint16')
-       skimage.io.imsave('./outputs/disparity/disparity.png',img)
+       skimage.io.imsave('disparity.png',img)
        
        #img = np.concatenate((imgL_o, imgR_o),axis=1)
        #img = cv2.line(img, (0, 240), (1504, 240), (0, 0, 255), 2)
@@ -97,5 +97,4 @@ def generate_disparity(leftimg, rightimg, isgray):
 
 
 
-
-
+generate_disparity('left.png', 'right.png', False)
