@@ -20,13 +20,18 @@ from utils import preprocess
 from models import *
 import cv2
 
+no_cuda = False
+seed = 1
+cuda = not no_cuda and torch.cuda.is_available()
+torch.manual_seed(seed)
+if cuda :
+    torch.cuda.manual_seed(seed)
 model = stackhourglass(192)
-
 model = nn.DataParallel(model)
 model.cuda()
 
-loadmodel = './trained/pretrained_model_KITTI2015.tar'
-#loadmodel = './models/PSMNet/trained/pretrained_model_KITTI2015.tar'
+#loadmodel = './trained/pretrained_model_KITTI2015.tar'
+loadmodel = './models/PSMNet/trained/pretrained_model_KITTI2015.tar'
 print('load PSMNet')
 state_dict = torch.load(loadmodel)
 model.load_state_dict(state_dict['state_dict'])
@@ -53,7 +58,7 @@ def test(imgL,imgR):
 
 def generate_disparity(leftimg, rightimg, isgray):
        processed = preprocess.get_transform(augment=False)
-       if isgray:
+       if isgray == False:
            imgL_o = cv2.cvtColor(cv2.imread(leftimg,0), cv2.COLOR_GRAY2RGB)
            imgR_o = cv2.cvtColor(cv2.imread(rightimg,0), cv2.COLOR_GRAY2RGB)
        else:
@@ -96,5 +101,4 @@ def generate_disparity(leftimg, rightimg, isgray):
        #skimage.io.imsave('test.png',img)
 
 
-
-generate_disparity('left.png', 'right.png', False)
+#generate_disparity('../../../2011_09_26/2011_09_26_drive_0005_sync/image_02/data/0000000000.png','../../../2011_09_26/2011_09_26_drive_0005_sync/image_03/data/0000000000.png', False)
