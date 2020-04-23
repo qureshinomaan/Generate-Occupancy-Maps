@@ -93,7 +93,7 @@ def generate_disparity(leftimg, rightimg, isgray):
             img = pred_disp
        img = (img*256).astype('uint16')
        skimage.io.imsave('disparity.png',img)
-       
+       return img
        #img = np.concatenate((imgL_o, imgR_o),axis=1)
        #img = cv2.line(img, (0, 240), (1504, 240), (0, 0, 255), 2)
        #img = cv2.line(img, (0, 210), (1504, 210), (0, 0, 255), 2)
