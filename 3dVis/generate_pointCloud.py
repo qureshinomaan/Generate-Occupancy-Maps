@@ -26,9 +26,10 @@ for x in range(gray.shape[0]):
     for y in range(gray.shape[1]):
         color =  65536 * image_seg[x][y][0] + 256 * image_seg[x][y][1] + image_seg[x][y][2]
         disparity = gray[x][y]
-        Z = 721*(fx)/(disparity)
-        X = 721*(1242 - x - ox)/disparity
-        Y = 721*(y - oy)/disparity
+        Z = 0.54*(fx)/(disparity)
+        X = 0.54*(1242 - x )/disparity
+        Y = 0.54*(y)/disparity
+        
         
         f.write(str(X) + " " + str(Y) + " " + str(Z) + " " +str(color) +"\n" )
 f.close()
