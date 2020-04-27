@@ -25,10 +25,12 @@ f=open("PointCloud.pcd", "a+")
 for x in range(gray.shape[0]):
     for y in range(gray.shape[1]):
         color =  65536 * image_seg[x][y][0] + 256 * image_seg[x][y][1] + image_seg[x][y][2]
+        if image_seg[x][y][0] == image_seg[x][y][1] and image_seg[x][y][1] == image_seg[x][y][2] :
+            color = 65536*220 + 256*220 +220
         disparity = gray[x][y]
-        Z = 0.54*(fx)/(disparity)
-        X = 0.54*(1242 - x )/disparity
-        Y = 0.54*(y)/disparity
+        Z = 0.54*(fx)/(disparity*10)
+        X = 0.54*(1242 - x )/(disparity*10)
+        Y = 0.54*(y)/(disparity*10)
         
         
         f.write(str(X) + " " + str(Y) + " " + str(Z) + " " +str(color) +"\n" )
