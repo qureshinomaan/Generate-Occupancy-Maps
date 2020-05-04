@@ -14,5 +14,5 @@ import cv2
 # print(pcd)
 
 cloud = open3d.io.read_point_cloud("./pointCloud.pcd")
-print(cloud)
+# print(cloud.Image)
 open3d.visualization.draw_geometries([cloud])
