@@ -26,7 +26,7 @@ for i in range(9, len(Lines)):
         image[1000 - pixels[1]][1000 - pixels[2]][1] = g
         image[1000 - pixels[1]][1000 - pixels[2]][2] = b
 
-image = cv2.imread('occupancy_map.png')
+# image = cv2.imread('occupancy_map.png')
 
 res = 10
 for i in range(int(100)):
@@ -37,8 +37,8 @@ for i in range(int(100)):
         count = 0
         total = 0
 
-        for x in range(res):
-            for y in range(res):
+        for x in range(seg.shape[0]):
+            for y in range(seg.shape[1]):
                 if seg[x][y] != 0 :
                     count += 1
                 total += seg[x][y]
@@ -52,8 +52,8 @@ for i in range(int(100)):
         count = 0
         total = 0
 
-        for x in range(res):
-            for y in range(res):
+        for x in range(seg.shape[0]):
+            for y in range(seg.shape[1]):
                 if seg[x][y] != 0 :
                     count += 1
                 total += seg[x][y]
@@ -66,8 +66,8 @@ for i in range(int(100)):
         count = 0
         total = 0
 
-        for x in range(res):
-            for y in range(res):
+        for x in range(seg.shape[0]):
+            for y in range(seg.shape[1]):
                 if seg[x][y] != 0 :
                     count += 1
                 total += seg[x][y]
