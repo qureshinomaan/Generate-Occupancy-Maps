@@ -54,6 +54,7 @@ def generate3dPC(image_disparity, image_segment) :
             color =  65536 * image_seg[x][y][0] + 256 * image_seg[x][y][1] + image_seg[x][y][2]
             if image_seg[x][y][0] == image_seg[x][y][1] and image_seg[x][y][1] == image_seg[x][y][2] :
                 color = 65536*220 + 256*220 +220
+        
             disparity = (gray[x][y]/256)
             
             Z = 0.54*(fx*0.001)/(disparity)*100
@@ -66,7 +67,7 @@ def generate3dPC(image_disparity, image_segment) :
             X = X1
             Z = Z1
             
-            if Z <700 :
+            if Z <700  and x > 80:
                 f.write(str(X) + " " + str(Y) + " " + str(Z) + " " +str(color) +"\n" )
     f.close()
     
