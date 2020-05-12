@@ -21,65 +21,60 @@ for i in range(9, len(Lines)):
     g = (pixels[3]%65536)/256
     pixels[3] -= 256*g
     b = pixels[3]/65536
-    if pixels[2] < 1000 and pixels[1] < 1000  and pixels[2]>0 and pixels[1]>0:
-        image[1000 - pixels[1]][1000 - pixels[2]][0] = r
-        image[1000 - pixels[1]][1000 - pixels[2]][1] = g
-        image[1000 - pixels[1]][1000 - pixels[2]][2] = b
+    if (r == 220 and b == 220 and g == 220) == False :
+        if pixels[2] < 1000 and pixels[1] < 1000  and pixels[2]>0 and pixels[1]>0:
+            image[1000 - pixels[1]][1000 - pixels[2]][0] = r
+            image[1000 - pixels[1]][1000 - pixels[2]][1] = g
+            image[1000 - pixels[1]][1000 - pixels[2]][2] = b
 
+image = cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
+cv2.imwrite('./occupancy_map0'+'.png', image)
+overlay = cv2.imread('./maps/occupancy_map14.png')
 
-cv2.imwrite('./maps/occupancy_map0'+'.png', image)
-
-actual_res = 20
-cut_off = 20
-color_range = 16
-
-for res in range(4, actual_res):
-    print("Res : ", res)
-    for i in range(int(1000/res)):
-        for j in range(int(1000/res)):
-
-            seg = image[i*res:(i+1)*res,j*res:(j+1)*res,0]
-            color_array = [0 for x in range(int(256/color_range))]
-            color_array[0] = -10000
-            for x in range(seg.shape[0]):
-                for y in range(seg.shape[1]):
-                    color_array[int(seg[x][y]/color_range)] += 1
-                    
-                    
-            r = color_array.index(max(color_array)) * 16
-            if max(color_array) > int(res*res/cut_off) :
-                image[i*res:(i+1)*res,j*res:(j+1)*res,0] = int(r)
-            else :
-                image[i*res:(i+1)*res,j*res:(j+1)*res,0] = 0
-
-
-
-            seg = image[i*res:(i+1)*res,j*res:(j+1)*res,1]
-            color_array = [0 for x in range(int(256/color_range))]
-            color_array[0] = -10000
-            for x in range(seg.shape[0]):
-                for y in range(seg.shape[1]):
-                    color_array[int(seg[x][y]/color_range)] += 1
-                    
-            g = color_array.index(max(color_array)) * 16
-            if max(color_array) > int(res*res/cut_off) :
-                image[i*res:(i+1)*res,j*res:(j+1)*res,1] = int(g)
-            else :
-                image[i*res:(i+1)*res,j*res:(j+1)*res,1] = 0
-
-
-            seg = image[i*res:(i+1)*res,j*res:(j+1)*res,2]
-            color_array = [0 for x in range(int(256/color_range))]
-            color_array[0] = -10000
-            for x in range(seg.shape[0]):
-                for y in range(seg.shape[1]):
-                    color_array[int(seg[x][y]/color_range)] += 1
-            b = color_array.index(max(color_array)) * 16
-            if max(color_array) > int(res*res/cut_off):
-                image[i*res:(i+1)*res,j*res:(j+1)*res,2] = int(b)
-            else :
-                image[i*res:(i+1)*res,j*res:(j+1)*res,2] = 0
+def resolute(image, max_res, min_res, overlay_image) :
+    for resol in range(min_res, max_res) :
+        res_y = resol
+        res_x = resol
+        fraction = 10
+        for i in range(int(image.shape[0]/res_x)) :
+            for j in range(int(image.shape[1]/res_y)) :
                 
-                
-                
-    cv2.imwrite('./maps/occupancy_map'+str(res)+'.png', image)
+                seg = image[i*res_x:(i+1)*res_x, j*res_y:(j+1)*res_y, 0]
+                total, count = 0, 0
+                for x in range(seg.shape[0]):
+                    for y in range(seg.shape[1]):
+                        if seg[x][y] != 0 :
+                            count += 1
+                            total += seg[x][y]
+                    if count > (res_x *res_y)/fraction :
+                        image[i*res_x:(i+1)*res_x, j*res_y:(j+1)*res_y, 0] = total/count
+                        overlay_image[i*res_x:(i+1)*res_x, j*res_y:(j+1)*res_y, 0] = total/count
+                        
+                        
+                seg = image[i*res_x:(i+1)*res_x, j*res_y:(j+1)*res_y, 1]
+                total, count = 0, 0
+                for x in range(seg.shape[0]):
+                    for y in range(seg.shape[1]):
+                        if seg[x][y] != 0 :
+                            count += 1
+                            total += seg[x][y]
+                    if count > (res_x *res_y)/fraction :
+                        image[i*res_x:(i+1)*res_x, j*res_y:(j+1)*res_y, 1] = total/count
+                        overlay_image[i*res_x:(i+1)*res_x, j*res_y:(j+1)*res_y, 1] = total/count
+                        
+                        
+                seg = image[i*res_x:(i+1)*res_x, j*res_y:(j+1)*res_y, 2]
+                total, count = 0, 0
+                for x in range(seg.shape[0]):
+                    for y in range(seg.shape[1]):
+                        if seg[x][y] != 0 :
+                            count += 1
+                            total += seg[x][y]
+                    if count > (res_x *res_y)/fraction :
+                        image[i*res_x:(i+1)*res_x, j*res_y:(j+1)*res_y, 2] = total/count
+                        overlay_image[i*res_x:(i+1)*res_x, j*res_y:(j+1)*res_y, 2] = total/count
+                        
+            cv2.imwrite('./maps/occupancy_map'+ str(resol) + '.png', overlay_image)
+
+
+resolute(image, 101, 100, overlay)
