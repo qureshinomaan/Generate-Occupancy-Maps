@@ -7,6 +7,7 @@
 #======================================================================================#
 import numpy as np
 import torch
+import matplotlib.pyplot as plt
 #======================================================================================#
 
 
@@ -26,4 +27,6 @@ x = np.empty((N, L), 'int64')
 x = np.array(range(L)) + np.random.randint(-4 * T, 4 * T, N).reshape(N, 1)
 data = np.sin(x / 1.0 / T).astype('float64')
 torch.save(data, open('traindata.pt', 'wb'))
+plt.scatter(np.linspace(0, 1000, 1000), data[1])
+plt.show()
 #======================================================================================#
