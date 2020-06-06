@@ -1,25 +1,25 @@
 # Generate-Occupancy-Maps
-Using pre-trained Deep Learning models and Transformations for generating occupancy maps. Currently, the system uses stereo images to generate a depth map. With the help of instance-segmented image and depth map, we were able to generate a instance-segmented 3d visualisation. We get a occupancy grid by projecting the 3d model on ground plane.
+Using pre-trained Deep Learning models and Transformations for generating occupancy maps.
 
 
 ## Occupancy Maps
 Occupancy Grid Mapping refers to a family of computer algorithms which address the problem of generating maps from noisy and uncertain data.
 
+## Algorithm
+The system takes a stereo pair and generates a depth map(using PSMNet) and instance segmented scene(using maskrcnn). We then use these to get a 3D Model of the scene. This 3d model is projected to the ground to get the occupancy grid.
+
 ## Depth Image
-Some methods
+In CV, a depth image contains information about depth of surfaces presents in the image. s
+Some methods to get the depth image.
 * Stereo Methods.
-* Monocular Methods(To be done).
+* Monocular Methodss.
 * Network (PSMNET)
+  * PSMNet actually gives disparity map, which can be converted to a depth map.
 
-
-## Three Methods Before Occupancy Grid
-Semantic Segmentation
-* InPlace-ABN-Mapillary
-Instance Segmentation
-* Mask RCNN
-Depth Image
-*  PSMNET
-
+## Semantic Segmentation
+We identify each instance of each object featured in the image instead of categorizing each pixel like in semantic segmentation.
+* We can use pretrained models of detectron2 model-zoo.
+ 
 
 ### Input
 The inputs are
@@ -42,6 +42,7 @@ The output consists of
 - [x] Using detectron2 to get the instance segmented image(without text).
 - [x] Using depth image to obtain a 3d visualisation.
 - [x] Getting occupancy maps from 3d visualisation.
+- [ ] Format in the input/output format mentioned above.
 - [ ] Making the occupancy map better.
 - [ ] Writing scripts so that the system is easily usable.
 - [ ] Adding the Monocular depth maps.
@@ -56,9 +57,6 @@ The output consists of
 
 ### Resources
 * [Photogometry Lectures](https://www.youtube.com/watch?v=_mOG_lpPnpY&list=PLgnQpQtFTOGRsi5vzy9PiQpNWHjq-bKN1)
-
-
-
 
 ### Mentor
 [Shashank Srikanth](https://github.com/talsperre)
