@@ -16,7 +16,7 @@ Some methods to get the depth image.
 * Network (PSMNET)
   * PSMNet actually gives disparity map, which can be converted to a depth map.
 
-## Semantic Segmentation
+## Instance Segmentation
 We identify each instance of each object featured in the image instead of categorizing each pixel like in semantic segmentation.
 * We can use pretrained models of detectron2 model-zoo.
  
