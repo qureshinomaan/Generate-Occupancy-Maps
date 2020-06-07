@@ -51,6 +51,7 @@ The output consists of
 - [ ] Writing scripts so that the system is easily usable.
 - [ ] Adding the Monocular depth maps.
 - [ ] Stitching the point clouds to get a map of the environment(a little ambitious for now).
+  -  If you are a beginner and want to team up on this, please contact. 
 
 
 ### Other Tasks
