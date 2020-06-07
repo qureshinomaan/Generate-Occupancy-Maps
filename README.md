@@ -2,13 +2,15 @@
 Using pre-trained Deep Learning models and Transformations for generating occupancy maps.
 
 ## Note
-If you find any difficulty in using some notebook or script, please feel free to create an issue. This is a work in progress and I will keep making changes to the repository for a while. 
+If you find any difficulty in using some notebook or script, please feel free to create an issue. This is a work in progress and I will keep making changes to the repository for a while.
 
 ## Occupancy Maps
 Occupancy Grid Mapping refers to a family of computer algorithms which address the problem of generating maps from noisy and uncertain data.
 
 ## Algorithm
 The system takes a stereo pair and generates a depth map(using PSMNet) and instance segmented scene(using maskrcnn). We then use these to get a 3D Model of the scene. This 3d model is projected to the ground to get the occupancy grid.
+!["Algorithmic Pipeline"](./HowToUse/pipeline.png)
+
 
 ## Depth Image
 In CV, a depth image contains information about depth of surfaces presents in the image. s

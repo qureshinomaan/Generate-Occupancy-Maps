@@ -28,53 +28,64 @@ for i in range(9, len(Lines)):
             image[1000 - pixels[1]][1000 - pixels[2]][2] = b
 
 image = cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
-cv2.imwrite('./occupancy_map0'+'.png', image)
-overlay = cv2.imread('./maps/occupancy_map14.png')
+cv2.imwrite('occupancy_map0'+'.png', image)
 
-def resolute(image, max_res, min_res, overlay_image) :
-    for resol in range(min_res, max_res) :
-        res_y = resol
-        res_x = resol
-        fraction = 10
-        for i in range(int(image.shape[0]/res_x)) :
-            for j in range(int(image.shape[1]/res_y)) :
-                
-                seg = image[i*res_x:(i+1)*res_x, j*res_y:(j+1)*res_y, 0]
-                total, count = 0, 0
-                for x in range(seg.shape[0]):
-                    for y in range(seg.shape[1]):
-                        if seg[x][y] != 0 :
-                            count += 1
-                            total += seg[x][y]
-                    if count > (res_x *res_y)/fraction :
-                        image[i*res_x:(i+1)*res_x, j*res_y:(j+1)*res_y, 0] = total/count
-                        overlay_image[i*res_x:(i+1)*res_x, j*res_y:(j+1)*res_y, 0] = total/count
-                        
-                        
-                seg = image[i*res_x:(i+1)*res_x, j*res_y:(j+1)*res_y, 1]
-                total, count = 0, 0
-                for x in range(seg.shape[0]):
-                    for y in range(seg.shape[1]):
-                        if seg[x][y] != 0 :
-                            count += 1
-                            total += seg[x][y]
-                    if count > (res_x *res_y)/fraction :
-                        image[i*res_x:(i+1)*res_x, j*res_y:(j+1)*res_y, 1] = total/count
-                        overlay_image[i*res_x:(i+1)*res_x, j*res_y:(j+1)*res_y, 1] = total/count
-                        
-                        
-                seg = image[i*res_x:(i+1)*res_x, j*res_y:(j+1)*res_y, 2]
-                total, count = 0, 0
-                for x in range(seg.shape[0]):
-                    for y in range(seg.shape[1]):
-                        if seg[x][y] != 0 :
-                            count += 1
-                            total += seg[x][y]
-                    if count > (res_x *res_y)/fraction :
-                        image[i*res_x:(i+1)*res_x, j*res_y:(j+1)*res_y, 2] = total/count
-                        overlay_image[i*res_x:(i+1)*res_x, j*res_y:(j+1)*res_y, 2] = total/count
-                        
-            cv2.imwrite('./maps/occupancy_map'+ str(resol) + '.png', overlay_image)
+actual_res = 15
+cut_off = 8
+
+for res in range(5, actual_res):
+ for i in range(int(1000/res)):
+     for j in range(int(1000/res)):
+
+         seg = image[i*res:(i+1)*res,j*res:(j+1)*res,0]
+         count = 0
+         total = 0
+
+         for x in range(seg.shape[0]):
+             for y in range(seg.shape[1]):
+                 if seg[x][y] != 0 :
+                     count += 1
+                 total += seg[x][y]
+
+         if count != 0 :
+             r = total/count
+             if count > int(res*res/cut_off) :
+                 image[i*res:(i+1)*res,j*res:(j+1)*res,0] = int(r)
+             else :
+                 image[i*res:(i+1)*res,j*res:(j+1)*res,0] = 0
 
 
-resolute(image, 101, 100, overlay)
+
+         seg = image[i*res:(i+1)*res,j*res:(j+1)*res,1]
+         count = 0
+         total = 0
+
+         for x in range(seg.shape[0]):
+             for y in range(seg.shape[1]):
+                 if seg[x][y] != 0 :
+                     count += 1
+                 total += seg[x][y]
+         if count != 0 :
+             g = total/count
+             if count > int(res*res/cut_off) :
+                 image[i*res:(i+1)*res,j*res:(j+1)*res,1] = int(g)
+             else :
+                 image[i*res:(i+1)*res,j*res:(j+1)*res,1] = 0
+
+
+         seg = image[i*res:(i+1)*res,j*res:(j+1)*res,2]
+         count = 0
+         total = 0
+
+         for x in range(seg.shape[0]):
+             for y in range(seg.shape[1]):
+                 if seg[x][y] != 0 :
+                     count += 1
+                 total += seg[x][y]
+         if count != 0 :
+             b = total/count
+             if count > int(res*res/cut_off):
+                 image[i*res:(i+1)*res,j*res:(j+1)*res,2] = int(b)
+             else :
+                 image[i*res:(i+1)*res,j*res:(j+1)*res,2] = 0
+ cv2.imwrite('./maps/occupancy_map'+str(res)+'.png', image)
