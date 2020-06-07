@@ -1,6 +1,8 @@
 # Generate-Occupancy-Maps
 Using pre-trained Deep Learning models and Transformations for generating occupancy maps.
 
+## Note
+If you find any difficulty in using the system, please feel free to create an issue. This is a work in progress and I will keep making changes to the repository. 
 
 ## Occupancy Maps
 Occupancy Grid Mapping refers to a family of computer algorithms which address the problem of generating maps from noisy and uncertain data.
