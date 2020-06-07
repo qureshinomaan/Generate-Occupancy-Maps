@@ -13,7 +13,7 @@ The system takes a stereo pair and generates a depth map(using PSMNet) and insta
 
 
 ## Depth Image
-In CV, a depth image contains information about depth of surfaces presents in the image. s
+In CV, a depth image contains information about depth of surfaces presents in the image.
 Some methods to get the depth image.
 * Stereo Methods.
 * Monocular Methodss.
@@ -39,7 +39,7 @@ The output consists of
 * The output images should have a proper name.
 
 ### Dataset
-* KITTI Dataset is used for the project.
+* KITTI Dataset is used for testing in the project.
 
 ### Tasks
 - [x] Debug PSMNet to get the depth image.
